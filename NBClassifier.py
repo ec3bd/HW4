@@ -31,12 +31,13 @@ def loadData():
     yVal = asmatrix(yVal)
     return xVal, yVal
 
+#trains and tests the data using 6-fold cross validation
 def cv(xVal, yVal):
     n = xVal.shape[0]
     p = xVal.shape[1]
-    for i in range(0,):
-        beg = int(i*n/10)
-        end = int((i+1)*n/10)
+    for i in range(0,6):
+        beg = int(i*n/6)
+        end = int((i+1)*n/6)
         xTest = xVal[beg:end,:]
         xTrain = xVal[0:beg:1,:]
         xTrain2 = xVal[end:,:]
@@ -47,9 +48,11 @@ def cv(xVal, yVal):
         yTrain = concatenate((yTrain, yTrain2))
 
         thetas = train(xTrain, yTrain)
-        test(thetas, xTest, yTest)
+        Accuracy = test(thetas, xTest, yTest)
+        print(Accuracy)
 
-
+#trains on the labeled samples passed in
+#returns dict, each class name maps to the list of probabilities for that class
 def train(xTrain, yTrain):
     n = xTrain.shape[0]
     p = xTrain.shape[1]
@@ -68,9 +71,11 @@ def train(xTrain, yTrain):
             thetas[key][j] = (thetas[key][j] + 1) / (sums[key] + numClass[key])
     return thetas
 
+#Makes a prediction about the samples and compares it to the label for that sample
+#returns an accuracy value
 def test(thetas, xTest, yTest):
     n = xTest.shape[0]
     p = xTest.shape[1]
-    
+
 if __name__ == "__main__":
     main()
