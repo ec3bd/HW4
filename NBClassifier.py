@@ -33,6 +33,7 @@ def loadData():
     file.close()
     xVal = asmatrix(xVal)
     yVal = asmatrix(yVal).T
+
     return xVal, yVal
 
 #trains and tests the data using 6-fold cross validation
@@ -61,19 +62,22 @@ def cv(xVal, yVal):
 def train(xTrain, yTrain):
     n = xTrain.shape[0]
     p = xTrain.shape[1]
-    thetas = dict.fromkeys(['brazilian', 'british', 'cajun_creole','chinese','filipino','french','greek','indian','irish','italian','jamaican','japanese','korean','mexican','moroccan','russian','southern_us','spanish','thai','vietnamese'], [0 for x in range(p)])
+    keys = ['brazilian', 'british', 'cajun_creole','chinese','filipino','french','greek','indian','irish','italian','jamaican','japanese','korean','mexican','moroccan','russian','southern_us','spanish','thai','vietnamese']
+    value = [0 for x in range(p)]
+    thetas = {key: list(value) for key in keys}
     numClass = dict.fromkeys(['brazilian', 'british', 'cajun_creole','chinese','filipino','french','greek','indian','irish','italian','jamaican','japanese','korean','mexican','moroccan','russian','southern_us','spanish','thai','vietnamese'], 0)
     for i in range(n):
         numClass[yTrain[i,0]] += 1
         for j in range(p):
             thetas[yTrain[i,0]][j] += xTrain[i,j]
-
+    print(thetas['vietnamese'])
+    print(thetas['french'])
     sums = dict()
     for key in thetas:
         sums[key] = sum(thetas[key])
     for key in thetas:
         for j in range(p):
-            thetas[key][j] = (thetas[key][j] + 1) / (sums[key] + numClass[key])#maybe needs to be + len(thetas.keys())
+            thetas[key][j] = (thetas[key][j] + 1) / (2 + numClass[key])#maybe needs to be + len(thetas.keys())
     return thetas
 
 #Makes a prediction about the samples and compares it to the label for that sample
@@ -81,28 +85,29 @@ def train(xTrain, yTrain):
 def test(thetas, xTest, yTest):
     n = xTest.shape[0]
     p = xTest.shape[1]
-    c = len(thetas.keys())
     yPredict = []
     classChance = dict()
     for key in thetas:
         classChance[key] = [0 for i in range(n)]
-    for i in range(n):
-        for j in range(p):
-            for key in thetas:
+    for key in thetas:
+        for i in range(n):
+            for j in range(p):
                 chanceJ = math.log(thetas[key][j])
                 if xTest[i,j] == 0:
                     chanceJ = math.log(1 - thetas[key][j])
                 classChance[key][i] += chanceJ
-
+    #print(thetas) very long and still all the same value at this stage
+    print(classChance['indian'][0])
+    print(classChance['greek'][0])
     for i in range(n):
-        best = classChance['greek'][i]
-        bestClass = 'greek'
+        best = classChance['indian'][i]
+        bestClass = 'indian'
         for key in thetas:
             if best < classChance[key][i]:
                 best = classChance[key][i]
                 bestClass = key
         yPredict.append(bestClass)
-
+    print(yPredict)
     true = 0
     total = 0
     for i in range(n):
