@@ -54,7 +54,7 @@ def cv(xVal, yVal):
 
         thetas = train(xTrain, yTrain)
         Accuracy = test(thetas, xTest, yTest)
-        print(Accuracy)
+        print(repr(i) + ": " + repr(Accuracy))
 
 #trains on the labeled samples passed in
 #returns dict, each class name maps to the list of probabilities for that class
@@ -73,7 +73,7 @@ def train(xTrain, yTrain):
         sums[key] = sum(thetas[key])
     for key in thetas:
         for j in range(p):
-            thetas[key][j] = (thetas[key][j] + 1) / (sums[key] + numClass[key])
+            thetas[key][j] = (thetas[key][j] + 1) / (sums[key] + numClass[key])#maybe needs to be + len(thetas.keys())
     return thetas
 
 #Makes a prediction about the samples and compares it to the label for that sample
@@ -81,6 +81,41 @@ def train(xTrain, yTrain):
 def test(thetas, xTest, yTest):
     n = xTest.shape[0]
     p = xTest.shape[1]
+    c = len(thetas.keys())
+    yPredict = []
+    classChance = dict()
+    for key in thetas:
+        classChance[key] = [0 for i in range(n)]
+    for i in range(n):
+        for j in range(p):
+            for key in thetas:
+                chanceJ = math.log(thetas[key][j])
+                if xTest[i,j] == 0:
+                    chanceJ = math.log(1 - thetas[key][j])
+                classChance[key][i] += chanceJ
+
+    for i in range(n):
+        best = classChance['greek'][i]
+        bestClass = 'greek'
+        for key in thetas:
+            if best < classChance[key][i]:
+                best = classChance[key][i]
+                bestClass = key
+        yPredict.append(bestClass)
+
+    true = 0
+    total = 0
+    for i in range(n):
+        if yPredict[i] == yTest[i,0]:
+            true += 1
+        total += 1
+    Accuracy = true / total
+    return Accuracy
+
+
+
+
+
 
 if __name__ == "__main__":
     main()
