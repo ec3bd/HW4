@@ -19,22 +19,27 @@ def loadData():
         i+=1
     xVal = []
     yVal = []
-    file = open("training.csv")
-    for line in file:
-        line = line.split(",")
+    file = open("training.json",'r')
+    while(True):
+        line = file.readline()
+        if line == "":
+            break
+        line = json.loads(line.strip())
         ingrVect = [0 for x in range(len(ingrInd.keys()))]
-        for j in range(2,len(line)):
-            ingrVect[ingrInd[line[j]]] += 1
+        for ingredient in line["ingredients"]:
+            ingrVect[ingrInd[ingredient]] += 1
         xVal.append(ingrVect)
-        yVal.append(line[1])
+        yVal.append(line["cuisine"])
+    file.close()
     xVal = asmatrix(xVal)
-    yVal = asmatrix(yVal)
+    yVal = asmatrix(yVal).T
     return xVal, yVal
 
 #trains and tests the data using 6-fold cross validation
 def cv(xVal, yVal):
     n = xVal.shape[0]
     p = xVal.shape[1]
+
     for i in range(0,6):
         beg = int(i*n/6)
         end = int((i+1)*n/6)
@@ -57,11 +62,11 @@ def train(xTrain, yTrain):
     n = xTrain.shape[0]
     p = xTrain.shape[1]
     thetas = dict.fromkeys(['brazilian', 'british', 'cajun_creole','chinese','filipino','french','greek','indian','irish','italian','jamaican','japanese','korean','mexican','moroccan','russian','southern_us','spanish','thai','vietnamese'], [0 for x in range(p)])
-    numClass = dict.fromkeys(['brazilian', 'british', 'cajun_creole','chinese','filipino','french','greek','indian','irish','italian','jamaican','japanese','korean','mexican','moroccan','russian','southern_us','spanish','thai','vietnamese'], [0 for x in range(p)])
+    numClass = dict.fromkeys(['brazilian', 'british', 'cajun_creole','chinese','filipino','french','greek','indian','irish','italian','jamaican','japanese','korean','mexican','moroccan','russian','southern_us','spanish','thai','vietnamese'], 0)
     for i in range(n):
-        numClass[yTrain[i]] += 1
+        numClass[yTrain[i,0]] += 1
         for j in range(p):
-            thetas[yTrain[i]][p] += xTrain[i,p]
+            thetas[yTrain[i,0]][j] += xTrain[i,j]
 
     sums = dict()
     for key in thetas:
