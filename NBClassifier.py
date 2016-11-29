@@ -40,7 +40,16 @@ def loadData():
 def cv(xVal, yVal):
     n = xVal.shape[0]
     p = xVal.shape[1]
-
+    augmented = concatenate((xVal,yVal),1)
+    random.seed(37)
+    random.shuffle(augmented)
+    augmented = asmatrix(augmented)
+    xVal = augmented[:, 0:p]
+    yVal = augmented[:, p]
+    print(xVal[1,2])
+    thetas = train(xVal, yVal)
+    Accuracy = test(thetas, xVal, yVal)
+    print("train/test: " + repr(Accuracy))
     for i in range(0,6):
         beg = int(i*n/6)
         end = int((i+1)*n/6)
@@ -65,11 +74,11 @@ def train(xTrain, yTrain):
     keys = ['brazilian', 'british', 'cajun_creole','chinese','filipino','french','greek','indian','irish','italian','jamaican','japanese','korean','mexican','moroccan','russian','southern_us','spanish','thai','vietnamese']
     value = [0 for x in range(p)]
     thetas = {key: list(value) for key in keys}
-    numClass = dict.fromkeys(['brazilian', 'british', 'cajun_creole','chinese','filipino','french','greek','indian','irish','italian','jamaican','japanese','korean','mexican','moroccan','russian','southern_us','spanish','thai','vietnamese'], 0)
+    numClass = {key: 0 for key in keys}
     for i in range(n):
         numClass[yTrain[i,0]] += 1
         for j in range(p):
-            thetas[yTrain[i,0]][j] += xTrain[i,j]
+            thetas[yTrain[i,0]][j] += int(xTrain[i,j])
     print(thetas['vietnamese'])
     print(thetas['french'])
     sums = dict()
@@ -77,7 +86,7 @@ def train(xTrain, yTrain):
         sums[key] = sum(thetas[key])
     for key in thetas:
         for j in range(p):
-            thetas[key][j] = (thetas[key][j] + 1) / (2 + numClass[key])#maybe needs to be + len(thetas.keys())
+            thetas[key][j] = (thetas[key][j] + 1) / (20 + numClass[key])#maybe needs to be + len(thetas.keys())
     return thetas
 
 #Makes a prediction about the samples and compares it to the label for that sample
