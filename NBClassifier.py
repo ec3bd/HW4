@@ -44,11 +44,13 @@ def cv(xVal, yVal):
     random.seed(37)
     random.shuffle(augmented)
     augmented = asmatrix(augmented)
-    xVal = augmented[:, 0:p]
-    yVal = augmented[:, p]
-    thetas, numClass = train(xVal, yVal)
-    Accuracy = test(thetas, xVal, yVal, numClass)
-    print("train/test: " + repr(Accuracy))
+    xVal = asmatrix(augmented[:, 0:p])
+    yVal = asmatrix(augmented[:, p])
+    #print(xVal[9])
+    #print(yVal)
+    #thetas, falseThetas, numClass = train(xVal, yVal)
+    #Accuracy = test(thetas, falseThetas, xVal, yVal, numClass)
+    #print("train/test: " + repr(Accuracy))
     for i in range(0,6):
         beg = int(i*n/6)
         end = int((i+1)*n/6)
@@ -61,8 +63,8 @@ def cv(xVal, yVal):
         yTrain2 = yVal[end:,:]
         yTrain = concatenate((yTrain, yTrain2))
 
-        thetas, numClass = train(xTrain, yTrain)
-        Accuracy = test(thetas, xTest, yTest, numClass)
+        thetas, falseThetas, numClass = train(xTrain, yTrain)
+        Accuracy = test(thetas, falseThetas, xTest, yTest, numClass)
         print(repr(i) + ": " + repr(Accuracy))
 
 #trains on the labeled samples passed in
@@ -73,45 +75,53 @@ def train(xTrain, yTrain):
     keys = ['brazilian', 'british', 'cajun_creole','chinese','filipino','french','greek','indian','irish','italian','jamaican','japanese','korean','mexican','moroccan','russian','southern_us','spanish','thai','vietnamese']
     value = [0 for x in range(p)]
     thetas = {key: list(value) for key in keys}
+    falseThetas = {key: list(value) for key in keys}
     numClass = {key: 0 for key in keys}
     for i in range(n):
         numClass[yTrain[i,0]] += 1
         for j in range(p):
             thetas[yTrain[i,0]][j] += int(xTrain[i,j])
-    #print(thetas['vietnamese'])
-    #print(thetas['brazilian'])
+            falseThetas[yTrain[i,0]][j] += 1 - int(xTrain[i,j])
+    print(thetas['italian'])
+    print(thetas['brazilian'])
     #print(numClass)
     sums = dict()
     for key in thetas:
         sums[key] = sum(thetas[key])
     for key in thetas:
         for j in range(p):
-            thetas[key][j] = (thetas[key][j] + 1) / (sums[key] + numClass[key])#ceyer has numClass[key] + p atm
-    print(thetas['greek'])
-    return thetas, numClass
+            falseThetas[key][j] = (falseThetas[key][j] + 1) / (numClass[key] + 4)
+            thetas[key][j] = (thetas[key][j] + 1) / (numClass[key] + 4)#word doc results using sums[key] + p
+    #print(thetas['greek'])
+    print(thetas['italian'])
+    print(falseThetas['italian'])
+    print(thetas['brazilian'])
+    return thetas, falseThetas, numClass
 
 #Makes a prediction about the samples and compares it to the label for that sample
 #returns an accuracy value
-def test(thetas, xTest, yTest, numClass):
+def test(thetas, falseThetas, xTest, yTest, numClass):
     n = xTest.shape[0]
     p = xTest.shape[1]
+    if n == 1794:
+        numTrain = 1794
+    else:
+        numTrain = 1794 - n
     yPredict = []
     keys = ['brazilian', 'british', 'cajun_creole','chinese','filipino','french','greek','indian','irish','italian','jamaican','japanese','korean','mexican','moroccan','russian','southern_us','spanish','thai','vietnamese']
     value = [0 for x in range(n)]
     classChance = {key: list(value) for key in keys}
     for key in thetas:
         for i in range(n):
+            classChance[key][i] += math.log(float(numClass[key])/numTrain) #p(c)
             for j in range(p):
-                chanceJ = math.log(thetas[key][j])
-                if xTest[i,j] == 0:
-                    chanceJ = math.log(1 - thetas[key][j])
-                classChance[key][i] += chanceJ
-    for key in classChance:
-        for i in range(n):
-            classChance[key][i] += math.log(float(numClass[key])/1794.0)
+                if int(xTest[i,j]) == 0:
+                    classChance[key][i] += math.log(falseThetas[key][j])
+                else:
+                    classChance[key][i] += math.log(thetas[key][j])
     #print(thetas) very long and still all the same value at this stage
     print(classChance['italian'][0])
-    print(classChance['greek'][0])
+    print(classChance['italian'][3])
     print(classChance['brazilian'][0])
     for i in range(n):
         best = classChance['indian'][i]

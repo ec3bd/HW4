@@ -23,8 +23,8 @@
             <file leaf-file-name="naiveBayes.py" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/../../ML/HW5/naiveBayes.py">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="3.727488">
-                    <caret line="226" column="13" selection-start-line="226" selection-start-column="13" selection-end-line="226" selection-end-column="13" />
+                  <state vertical-scroll-proportion="0.9123223">
+                    <caret line="118" column="68" selection-start-line="118" selection-start-column="68" selection-end-line="118" selection-end-column="68" />
                     <folding>
                       <element signature="e#43#53#0" expanded="true" />
                     </folding>
@@ -68,8 +68,8 @@
       <file leaf-file-name="NBClassifier.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/NBClassifier.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23699422">
-              <caret line="108" column="27" selection-start-line="108" selection-start-column="27" selection-end-line="108" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.33911368">
+              <caret line="50" column="5" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
               <folding>
                 <element signature="e#53#72#0" expanded="true" />
               </folding>
@@ -349,8 +349,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../ML/HW5/naiveBayes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.727488">
-          <caret line="226" column="13" selection-start-line="226" selection-start-column="13" selection-end-line="226" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.9123223">
+          <caret line="118" column="68" selection-start-line="118" selection-start-column="68" selection-end-line="118" selection-end-column="68" />
           <folding>
             <element signature="e#43#53#0" expanded="true" />
           </folding>
@@ -359,8 +359,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/NBClassifier.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23699422">
-          <caret line="108" column="27" selection-start-line="108" selection-start-column="27" selection-end-line="108" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.33911368">
+          <caret line="50" column="5" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
           <folding>
             <element signature="e#53#72#0" expanded="true" />
           </folding>
