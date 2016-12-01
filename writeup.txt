@@ -1,3 +1,10 @@
-Training method
-6-fold cross validiation results
+Training method: for training, we went throught the set and for each classifying cuisine we caluculated the probability that it would contain each type of ingredient. 
+
+
+
+6-fold cross validiation results:
+When we went through the testing set, for each recipe we calculate the probability that it would be classified as each type of cuisine. To do that, we go through each ingredient that it does and does not contain and sum up the log of the likelihood that each ingredient's presense or absense would be the value that it is based off of the current cusine type we are checking. The reason that we take the sum of the logs of each ingredient's probability instead of multiplying them all is because the repeated multiplication would very likey cause a such a low value that the program would truncate it to zero. 
+
+
+
 generalization error (table, min max in bold, clearly report the average)
