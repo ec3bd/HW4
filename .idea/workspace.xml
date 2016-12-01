@@ -68,10 +68,10 @@
       <file leaf-file-name="NBClassifier.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/NBClassifier.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33911368">
-              <caret line="50" column="5" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
+            <state vertical-scroll-proportion="1.7379576">
+              <caret line="130" column="34" selection-start-line="130" selection-start-column="23" selection-end-line="130" selection-end-column="34" />
               <folding>
-                <element signature="e#53#72#0" expanded="true" />
+                <element signature="e#54#73#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -359,10 +359,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/NBClassifier.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33911368">
-          <caret line="50" column="5" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
+        <state vertical-scroll-proportion="1.7379576">
+          <caret line="130" column="34" selection-start-line="130" selection-start-column="23" selection-end-line="130" selection-end-column="34" />
           <folding>
-            <element signature="e#53#72#0" expanded="true" />
+            <element signature="e#54#73#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -82,20 +82,20 @@ def train(xTrain, yTrain):
         for j in range(p):
             thetas[yTrain[i,0]][j] += int(xTrain[i,j])
             falseThetas[yTrain[i,0]][j] += 1 - int(xTrain[i,j])
-    print(thetas['italian'])
-    print(thetas['brazilian'])
+    #print(thetas['italian'])
+    #print(thetas['brazilian'])
     #print(numClass)
     sums = dict()
     for key in thetas:
         sums[key] = sum(thetas[key])
     for key in thetas:
         for j in range(p):
-            falseThetas[key][j] = (falseThetas[key][j] + 1) / (numClass[key] + 4)
-            thetas[key][j] = (thetas[key][j] + 1) / (numClass[key] + 4)#word doc results using sums[key] + p
+            falseThetas[key][j] = (falseThetas[key][j] + .04) / (numClass[key] + .08)
+            thetas[key][j] = (thetas[key][j] + .04) / (numClass[key] + .08)#word doc results using sums[key] + p
     #print(thetas['greek'])
-    print(thetas['italian'])
-    print(falseThetas['italian'])
-    print(thetas['brazilian'])
+    #print(thetas['italian'])
+    #print(falseThetas['italian'])
+    #print(thetas['brazilian'])
     return thetas, falseThetas, numClass
 
 #Makes a prediction about the samples and compares it to the label for that sample
@@ -120,9 +120,9 @@ def test(thetas, falseThetas, xTest, yTest, numClass):
                 else:
                     classChance[key][i] += math.log(thetas[key][j])
     #print(thetas) very long and still all the same value at this stage
-    print(classChance['italian'][0])
-    print(classChance['italian'][3])
-    print(classChance['brazilian'][0])
+    #print(classChance['italian'][0])
+    #print(classChance['italian'][3])
+    #print(classChance['brazilian'][0])
     for i in range(n):
         best = classChance['indian'][i]
         bestClass = 'indian'
@@ -131,7 +131,7 @@ def test(thetas, falseThetas, xTest, yTest, numClass):
                 best = classChance[key][i]
                 bestClass = key
         yPredict.append(bestClass)
-    print(yPredict)
+    #print(yPredict)
     true = 0
     total = 0
     for i in range(n):
