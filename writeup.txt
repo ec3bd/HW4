@@ -1,0 +1,3 @@
+Training method
+6-fold cross validiation results
+generalization error (table, min max in bold, clearly report the average)
